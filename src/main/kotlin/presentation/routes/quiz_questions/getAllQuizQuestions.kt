@@ -1,6 +1,7 @@
 package com.avcoding.presentation.routes.quiz_questions
 
 import com.avcoding.domain.model.QuizQuestions
+import com.avcoding.presentation.config.quizQuestions
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
@@ -16,7 +17,7 @@ fun Route.getAllQuizQuestions(){
             explanations = "Mercury is the closest planet to the Sun, orbiting at an average distance of about 57.9 million kilometers.",
             topicCode = 101
         )
-
-        call.respondText(sampleQuestion.toString())
+        call.respond(quizQuestions)
+       // call.respond(sampleQuestion)
     }
 }

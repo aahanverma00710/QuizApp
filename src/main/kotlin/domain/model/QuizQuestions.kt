@@ -1,5 +1,8 @@
 package com.avcoding.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class QuizQuestions(
     val id: String?=null,
     val question : String,
