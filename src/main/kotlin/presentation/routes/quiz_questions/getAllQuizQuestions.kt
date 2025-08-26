@@ -1,23 +1,26 @@
 package com.avcoding.presentation.routes.quiz_questions
 
-import com.avcoding.domain.model.QuizQuestions
-import com.avcoding.presentation.config.quizQuestions
+import com.avcoding.domain.repo.QuizQuestionRepo
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 
-fun Route.getAllQuizQuestions(){
-    get("/quiz/questions"){
-        val sampleQuestion = QuizQuestions(
-            id = "Q1",
-            question = "What is the closest planet to the Sun?",
-            correctAnswer = "Mercury",
-            incorrectAnswers = listOf("Venus", "Earth", "Mars"),
-            explanations = "Mercury is the closest planet to the Sun, orbiting at an average distance of about 57.9 million kilometers.",
-            topicCode = 101
-        )
-        call.respond(quizQuestions)
-       // call.respond(sampleQuestion)
+fun Route.getAllQuizQuestions(
+    repo:QuizQuestionRepo
+) {
+    get("/quiz/questions") {
+        val topicCode = call.queryParameters["topicCode"]?.toIntOrNull()
+        val limit = call.queryParameters["limit"]?.toIntOrNull()
+        val filterList = repo.getAllQuestions(topicCode,limit)
+        if (filterList.isNotEmpty()){
+            call.respond(message = filterList,
+                status = HttpStatusCode.OK)
+        }else{
+            call.respond(message = "Not found",
+                status = HttpStatusCode.NotFound)
+        }
+
     }
 }
