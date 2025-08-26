@@ -1,5 +1,6 @@
 package com.avcoding.presentation.config
 
+import com.avcoding.data.db.DbFactory
 import com.avcoding.data.repo.QuizQuestionRepoImpl
 import com.avcoding.domain.model.QuizQuestions
 import com.avcoding.domain.repo.QuizQuestionRepo
@@ -12,7 +13,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.routing.routing
 
 fun Application.configureRouting(){
-    val quizQuestionRepo : QuizQuestionRepo = QuizQuestionRepoImpl()
+    val quizQuestionRepo : QuizQuestionRepo = QuizQuestionRepoImpl(DbFactory.create())
     routing {
         root()
         getAllQuizQuestions(quizQuestionRepo)
